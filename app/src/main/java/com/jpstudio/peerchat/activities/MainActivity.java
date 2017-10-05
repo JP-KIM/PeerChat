@@ -49,8 +49,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initQB();
-
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -85,27 +83,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
                             .setTabListener(this));
         }
     }
-
-    static final String APP_ID = "62676";
-    static final String AUTH_KEY = "9zXStZ93wNvaa8G";
-    static final String AUTH_SECRET = "KPWVxWVOVwAYya2";
-    static final String ACCOUNT_KEY = "WPKay5W2M6WDFoG4hBYc";
-
-    private void initQB() {
-        QBSettings.getInstance().setStoringMehanism(StoringMechanism.UNSECURED);
-        QBSettings.getInstance().init(getApplicationContext(), APP_ID, AUTH_KEY, AUTH_SECRET);
-        QBSettings.getInstance().setAccountKey(ACCOUNT_KEY);
-
-        /*
-        QBHttpConnectionConfig.setConnectTimeout(timeout); //timeout value in milliseconds.
-        QBHttpConnectionConfig.setReadTimeout(timeout); //timeout value in milliseconds.
-        Proxy proxy = new Proxy(Proxy.Type.HTTP, new InetSocketAddress("10.30.30.1", 3128));
-        QBHttpConnectionConfig.setProxy(proxy);
-        */
-
-
-    }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

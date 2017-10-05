@@ -1,5 +1,6 @@
 package com.jpstudio.peerchat.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -56,13 +57,8 @@ public class LoginActivity extends AppCompatActivity {
         mButton_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEdit_id.getText().length() == 0
-                        || mEdit_password.getText().length() == 0) {
-                    Toast.makeText(LoginActivity.this, "ID or PW is empty", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                signUpUser(mEdit_id.getText().toString(), mEdit_password.getText().toString());
+                Intent signUpIntent = new Intent(LoginActivity.this, SignUpActivity.class);
+                startActivity(signUpIntent);
             }
         });
 

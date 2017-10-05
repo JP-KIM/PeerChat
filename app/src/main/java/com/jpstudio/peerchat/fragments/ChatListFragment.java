@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +26,8 @@ import io.realm.RealmResults;
  */
 public class ChatListFragment extends Fragment {
 
-    private FloatingActionButton fab;
+//    private FloatingActionButton fab;
+    private Button userSearchButton;
     private ListView listview;
     private TextView textView_noList;
     private ChatListAdapter chatListAdapter;
@@ -47,19 +49,28 @@ public class ChatListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chatlist, container, false);
 
-        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+//        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        userSearchButton = (Button) rootView.findViewById(R.id.userSearchButton);
         listview = (ListView) rootView.findViewById(R.id.listView);
         textView_noList = (TextView) rootView.findViewById(R.id.textView_noList);
 
         initListView();
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        userSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Intent i = new Intent(getContext(), IDSearchActivity.class);
-                startActivity(i);
+            public void onClick(View view) {
+                Intent userSearch = new Intent(getContext(), IDSearchActivity.class);
+                startActivity(userSearch);
             }
         });
+
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(getContext(), IDSearchActivity.class);
+//                startActivity(i);
+//            }
+//        });
 
         return rootView;
     }

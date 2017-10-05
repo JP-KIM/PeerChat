@@ -16,5 +16,7 @@
     <string name="title_activity_video_call">VideoCallActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="userSearch">User Search</string>
+    <string name="finish">Finish</string>
     <string name="title_activity_chat">ChatActivity</string>
 </resources>
