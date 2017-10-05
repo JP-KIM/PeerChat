@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,15 +25,13 @@ public class ChatListAdapter extends RealmBaseAdapter<ChatItem> {
         TextView lastchatTextView;
     }
 
-    private ArrayList<ChatItem> chatItemList = new ArrayList<ChatItem>() ;
-
-    public ChatListAdapter(Context context, OrderedRealmCollection<ChatItem> realmResults) {
-        super(context, realmResults);
+    public ChatListAdapter(OrderedRealmCollection<ChatItem> realmResults) {
+        super(realmResults);
     }
 
     @Override
     public int getCount() {
-        return chatItemList.size() ;
+        return adapterData.size() ;
     }
 
     @Override
@@ -50,8 +49,8 @@ public class ChatListAdapter extends RealmBaseAdapter<ChatItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        if (chatItemList != null) {
-            ChatItem listViewItem = chatItemList.get(position);
+        if (adapterData != null) {
+            ChatItem listViewItem = adapterData.get(position);
 
             if (listViewItem.getProfile() != null) {
                 //viewHolder.profileImageView.setImageDrawable(listViewItem.getIcon());
@@ -69,7 +68,7 @@ public class ChatListAdapter extends RealmBaseAdapter<ChatItem> {
 
     @Override
     public ChatItem getItem(int position) {
-        return chatItemList.get(position);
+        return adapterData.get(position);
     }
 
     public void addItem(String profile, String title, String desc) {
@@ -79,6 +78,6 @@ public class ChatListAdapter extends RealmBaseAdapter<ChatItem> {
         item.setTitle(title);
         item.setLastchat(desc);
 
-        chatItemList.add(item);
+        adapterData.add(item);
     }
 }

@@ -51,10 +51,6 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         initQB();
 
-        Realm.init(this);
-        realm = Realm.getDefaultInstance();
-
-
         // Set up the action bar.
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);

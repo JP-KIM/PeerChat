@@ -2,6 +2,7 @@ package com.jpstudio.peerchat.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +15,7 @@ import android.widget.Toast;
 import com.jpstudio.peerchat.ChatItem;
 import com.jpstudio.peerchat.ChatListAdapter;
 import com.jpstudio.peerchat.R;
-
-import org.jivesoftware.smack.chat.Chat;
+import com.jpstudio.peerchat.activities.IDSearchActivity;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -25,6 +25,7 @@ import io.realm.RealmResults;
  */
 public class ChatListFragment extends Fragment {
 
+    private FloatingActionButton fab;
     private ListView listview;
     private TextView textView_noList;
     private ChatListAdapter chatListAdapter;
@@ -46,41 +47,21 @@ public class ChatListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_chatlist, container, false);
 
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
         listview = (ListView) rootView.findViewById(R.id.listView);
         textView_noList = (TextView) rootView.findViewById(R.id.textView_noList);
 
+        initListView();
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getContext(), IDSearchActivity.class);
+                startActivity(i);
+            }
+        });
+
         return rootView;
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        Realm.init(getContext());
-        realm = Realm.getDefaultInstance();
-
-        RealmResults<ChatItem> chatitems = realm.where(ChatItem.class).findAll();
-/*
-        // HERE WILL GO CRASH :(
-        chatListAdapter = new ChatListAdapter(getContext(), chatitems);
-
-        if (chatListAdapter.getCount() == 0) {
-            listview.setVisibility(View.GONE);
-            textView_noList.setVisibility(View.VISIBLE);
-            textView_noList.setText("NO CHAT LIST");
-        } else {
-            textView_noList.setVisibility(View.GONE);
-            listview.setVisibility(View.VISIBLE);
-            listview.setAdapter(chatListAdapter);
-
-            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                }
-            });
-        }
-        */
     }
 
     @Override
@@ -101,5 +82,38 @@ public class ChatListFragment extends Fragment {
         }*/
 
         Toast.makeText(getActivity(), "ChatListFragment.onActivityResult", Toast.LENGTH_LONG).show();
+    }
+
+    private void initListView() {
+        Realm.init(getContext());
+        realm = Realm.getDefaultInstance();
+
+        RealmResults<ChatItem> chatitems = realm.where(ChatItem.class).findAll();
+        chatListAdapter = new ChatListAdapter(chatitems);
+
+        if (chatListAdapter.getCount() == 0) {
+            listview.setVisibility(View.GONE);
+            textView_noList.setVisibility(View.VISIBLE);
+            textView_noList.setText("NO CHAT LIST");
+        } else {
+            textView_noList.setVisibility(View.GONE);
+            listview.setVisibility(View.VISIBLE);
+            listview.setAdapter(chatListAdapter);
+
+            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                }
+            });
+
+            listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    return false;
+                }
+            });
+        }
     }
 }

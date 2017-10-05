@@ -25,7 +25,7 @@ public class IDSearchActivity extends AppCompatActivity {
     Button mButton_search;
     Button mButton_add;
 
-    String mSearched_id;
+    private String mSearched_id;
 
     private Realm realm;
 
@@ -55,7 +55,7 @@ public class IDSearchActivity extends AppCompatActivity {
         mButton_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addIdToChatlist(mSearched_id);
+                addIdToChatlist();
             }
         });
 
@@ -82,14 +82,14 @@ public class IDSearchActivity extends AppCompatActivity {
         });
     }
 
-    public void addIdToChatlist(final String id) {
+    public void addIdToChatlist() {
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                int match = realm.where(ChatItem.class).equalTo("title", id).findAll().size();
-                if (match != 0) {
+                int match = realm.where(ChatItem.class).equalTo("title", mSearched_id).findAll().size();
+                if (match == 0) {
                     ChatItem item = realm.createObject(ChatItem.class);
-                    item.setTitle(id);
+                    item.setTitle(mSearched_id);
                     item.setLastchat("NOTHING");
                     final ChatItem managedItem = realm.copyToRealm(item);
                 }
