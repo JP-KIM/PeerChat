@@ -1,5 +1,7 @@
 package com.jpstudio.peerchat.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -121,10 +123,40 @@ public class ChatListFragment extends Fragment {
             listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
+                    AlertDialog diaBox = AskOption(position);
+                    diaBox.show();
                     return false;
                 }
             });
         }
+    }
+
+    private AlertDialog AskOption(final int position)
+    {
+        ChatItem item = chatListAdapter.getItem(position);
+        AlertDialog myQuittingDialogBox =new AlertDialog.Builder(getContext())
+                //set message, title, and icon
+                .setTitle(item.getTitle())
+                .setMessage("Do you want to delete?")
+                        //    .setIcon(R.drawable.delete)
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        realm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                RealmResults<ChatItem> result = realm.where(ChatItem.class).findAll();
+                                result.deleteFromRealm(position);
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+        return myQuittingDialogBox;
     }
 }

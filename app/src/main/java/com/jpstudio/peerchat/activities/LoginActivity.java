@@ -106,7 +106,12 @@ public class LoginActivity extends AppCompatActivity {
 
                 mButton_login.setVisibility(View.GONE);
                 mButton_signup.setVisibility(View.GONE);
-                mButton_logout.setVisibility(View.VISIBLE);
+                //mButton_logout.setVisibility(View.VISIBLE);
+
+                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(mainIntent);
+                finish();
             }
 
             @Override
@@ -153,6 +158,11 @@ public class LoginActivity extends AppCompatActivity {
 
             String str = sessionParameters.getUserId() + ", " + sessionParameters.getAccessToken();
             Toast.makeText(LoginActivity.this, "Already logined." + str, Toast.LENGTH_LONG).show();
+
+            Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(mainIntent);
+            finish();
         }
 
     }

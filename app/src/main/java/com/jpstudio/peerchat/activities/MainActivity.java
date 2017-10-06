@@ -16,11 +16,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jpstudio.peerchat.R;
 import com.jpstudio.peerchat.fragments.ChatListFragment;
 import com.quickblox.auth.session.QBSettings;
+import com.quickblox.core.QBEntityCallback;
 import com.quickblox.core.StoringMechanism;
+import com.quickblox.core.exception.QBResponseException;
+import com.quickblox.users.QBUsers;
 
 import io.realm.Realm;
 
@@ -109,6 +113,20 @@ public class MainActivity extends AppCompatActivity implements ActionBar.TabList
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+
+            QBUsers.signOut().performAsync(new QBEntityCallback<Void>() {
+                @Override
+                public void onSuccess(Void aVoid, Bundle bundle) {
+                    Toast.makeText(MainActivity.this, "success logout", Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onError(QBResponseException error) {
+                    Toast.makeText(MainActivity.this, "error logout:" + error.toString(), Toast.LENGTH_LONG).show();
+                }
+            });
+
+
             return true;
         } else if (id == R.id.action_login) {
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
